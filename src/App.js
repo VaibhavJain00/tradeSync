@@ -15,7 +15,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React with tradesync
+          Learn React with yashank
         </a>
       </header>
     </div>
