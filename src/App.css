@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;800&family=Poppins:ital,wght@0,400;1,600&display=swap');
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    /* color: gold; */
+}
+a{
+    text-decoration: none;
+    color: gold;
+    
+}
+
+.Apps{ 
+    background-color: #14161a;
+    min-height: 100vh;
+    color: white;
+}
