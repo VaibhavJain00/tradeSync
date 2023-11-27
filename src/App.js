@@ -6,6 +6,13 @@ function App() {
   return (
     <div className="App">
       <Button variant='contained' color='primary'>hello</Button>
+      <Button>Default</Button>
+<Button color="primary">Primary</Button>
+<Button color="secondary">Secondary</Button>
+<Button disabled>Disabled</Button>
+<Button href="#text-buttons" color="primary">
+  Link
+</Button>
       
     </div>
   );
