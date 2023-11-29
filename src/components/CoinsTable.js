@@ -23,6 +23,7 @@ import { CoinList } from "../config/api";
 import { CrytoState } from "../CrytoContext";
 import { useNavigate } from "react-router-dom";
 import { numberWithCommas } from "./Banner/Carousel";
+import { Pagination } from "@material-ui/lab";
 // import{ useHistory} from "react-router-dom";
 
 
@@ -35,11 +36,18 @@ const useStyles=makeStyles(()=>({
     },
     fontFamily: "Montserrat",
   },
+  pagination: {
+    "& .MuiPaginationItem-root": {
+      color: "gold",
+    },
+  },
 }))
 const CoinsTable = () => {
     const [coins, setCoins] = useState([]);
     const [loading, setLoading] = useState(false);
     const [search, setSearch] = useState("");
+    const [page, setpage] = useState(1)
+
     // const history = useHistory();
     const navigate=useNavigate();
 
@@ -82,7 +90,7 @@ const CoinsTable = () => {
 
       
   return <ThemeProvider theme={darkTheme}>
-    <container style={{textAlign: "center"}}>
+    <Container style={{textAlign: "center"}}>
         <Typography
           variant="h4"
           style={{ margin: 18, fontFamily: "Montserrat" }}
@@ -95,7 +103,6 @@ const CoinsTable = () => {
           style={{ marginBottom: 20, width: "100%" }}
           onChange={(e) => setSearch(e.target.value)}
         />
-    </container>
 
     <TableContainer>
       {
@@ -121,8 +128,10 @@ const CoinsTable = () => {
                     ))}
                   </TableRow>
               </TableHead>
-              <TableBody>{handleSearch().map((row)=>{
-                const profit = row.price_change_percentage_24h > 0;
+              <TableBody>
+                {handleSearch()
+                 .slice((page-1)*10,(page-1)*10+10).map((row)=>{
+                 const profit = row.price_change_percentage_24h > 0;
 
                 return(
                   <TableRow
@@ -188,6 +197,21 @@ const CoinsTable = () => {
 
         )}
     </TableContainer>
+          <Pagination
+          count={(handleSearch()?.length / 10).toFixed(0)}
+          style={{
+            padding: 20,
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+          }}
+          classes={{ ul: classes.pagination }}
+          onChange={(_, value) => {
+            setpage(value);
+            window.scroll(0, 450);
+          }}
+        />
+    </Container>
   </ThemeProvider>;
   
 };
