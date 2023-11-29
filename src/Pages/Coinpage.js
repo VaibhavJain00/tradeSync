@@ -144,7 +144,7 @@ const Coinpage = () => {
                 coin?.market_data.market_cap[currency.toLowerCase()]
                   .toString()
                   .slice(0, -6)
-              )}
+              )}{" M"}
               </Typography>
             </span>
            
