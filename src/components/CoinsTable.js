@@ -43,24 +43,24 @@ const useStyles=makeStyles(()=>({
   },
 }))
 const CoinsTable = () => {
-    const [coins, setCoins] = useState([]);
-    const [loading, setLoading] = useState(false);
+    // const [coins, setCoins] = useState([]);
+    // const [loading, setLoading] = useState(false);
     const [search, setSearch] = useState("");
     const [page, setpage] = useState(1)
 
     // const history = useHistory();
     const navigate=useNavigate();
 
-    const { currency, symbol } = CrytoState();
+    const { currency, symbol, coins, loading ,fetchCoins} = CrytoState();
 
-    const fetchCoins = async () => {
-        setLoading(true);
-        const { data } = await axios.get(CoinList(currency));
-        console.log(data);
+    // const fetchCoins = async () => {
+    //     setLoading(true);
+    //     const { data } = await axios.get(CoinList(currency));
+    //     console.log(data);
     
-        setCoins(data);
-        setLoading(false);
-      };
+    //     setCoins(data);
+    //     setLoading(false);
+    //   };
 
       console.log(coins);
 
