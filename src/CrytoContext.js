@@ -14,6 +14,13 @@ const CrytoContext = ({children}) => {
     const [coins, setCoins] = useState([]);
     const [loading, setLoading] = useState(false);
     const [user, setUser] = useState(null);
+    
+    const [alert, setAlert] = useState({
+      open:false,
+      message:"",
+      type:"success",
+    });
+
 
     useEffect(() => {
         if(currency==="INR") setsymbol("₹");
@@ -30,10 +37,10 @@ const CrytoContext = ({children}) => {
     };
     
   return (
-    <Cryto.Provider value={{currency,symbol,setcurrency, coins, loading,fetchCoins}}>
+    <Cryto.Provider value={{currency,symbol,setcurrency, coins, loading,fetchCoins,alert, setAlert}}>
         {children}
     </Cryto.Provider>
-  )
+  ) 
 }
 
 export default CrytoContext
