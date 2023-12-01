@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { CrytoState } from '../CrytoContext';
 import axios from 'axios';
 import { SingleCoin } from '../config/api';
-import { LinearProgress, Typography, makeStyles } from '@material-ui/core';
+import { Button, LinearProgress, Typography, makeStyles } from '@material-ui/core';
 import CoinInfo from '../components/CoinInfo';
 import { numberWithCommas } from '../components/Banner/Carousel';
 
@@ -65,7 +65,7 @@ const Coinpage = () => {
   const classes=useStyles();
   const {id}=useParams();
   const [coin, setcoin] = useState();
-  const {currency, symbol}= CrytoState();
+  const {currency, symbol,user}= CrytoState();
 
   const fetchCoin=async()=>{
     const {data}= await axios.get(SingleCoin(id));
@@ -147,7 +147,18 @@ const Coinpage = () => {
               )}{" M"}
               </Typography>
             </span>
-           
+            {user &&(
+              <Button
+                variant='outlined'
+                style={{
+                  width:"100%",
+                  height:40,
+                  backgroundColor:"#EEBC1D",
+                }}
+              >
+                Add to Watchlist
+              </Button>
+            )}
           </div>
 
         </div>
