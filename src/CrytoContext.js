@@ -5,7 +5,9 @@ import { useContext } from 'react';
 import { createContext } from 'react'
 import { CoinList } from './config/api';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from './firebase';
+import { auth, db } from './firebase';
+import { Input } from '@material-ui/core';
+import { doc, onSnapshot } from "@firebase/firestore";
 
 const Cryto= createContext();
 
@@ -23,7 +25,25 @@ const CrytoContext = ({children}) => {
       type:"success",
     });
 
-    const [watchlist, setWatchlist] = useState([])
+    const [watchlist, setWatchlist] = useState([]);
+
+    useEffect(() => {
+      if(user){
+        const coinRef = doc(db, "watchlist", user.uid);
+
+        var unsubscribe = onSnapshot(coinRef, coin => {
+          if(coin.exists()){
+            setWatchlist(coin.data().coins);
+          } else{
+            console.log("No items in watchlist");
+          }
+        });
+
+        return () => {
+          unsubscribe()
+        };
+      }
+    }, [user]);
 
     useEffect(()=>{
       onAuthStateChanged(auth,(user)=>{
