@@ -2,6 +2,7 @@ import { AppBar, Container, MenuItem, Select, ThemeProvider, Toolbar, Typography
 import React from 'react'
 import {useNavigate } from 'react-router-dom';
 import { CrytoState } from '../CrytoContext';
+import AuthModal from './Authentication/AuthModal';
 
 
 const useStyles = makeStyles(() => ({
@@ -50,6 +51,8 @@ const Header = () => {
                 <MenuItem value={"USD"}>USD</MenuItem>
                 <MenuItem value={"INR"}>INR</MenuItem>
               </Select>
+
+              <AuthModal />
             </Toolbar>
           </Container>
         </AppBar>

@@ -13,6 +13,7 @@ const CrytoContext = ({children}) => {
     const [symbol, setsymbol] = useState("₹");
     const [coins, setCoins] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
         if(currency==="INR") setsymbol("₹");
