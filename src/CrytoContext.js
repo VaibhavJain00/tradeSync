@@ -23,6 +23,8 @@ const CrytoContext = ({children}) => {
       type:"success",
     });
 
+    const [watchlist, setWatchlist] = useState([])
+
     useEffect(()=>{
       onAuthStateChanged(auth,(user)=>{
         if(user) setUser(user);
@@ -46,7 +48,7 @@ const CrytoContext = ({children}) => {
     };
     
   return (
-    <Cryto.Provider value={{currency,symbol,setcurrency, coins, loading,fetchCoins,alert, setAlert,user,}}>
+    <Cryto.Provider value={{currency,symbol,setcurrency, coins, loading,fetchCoins,alert, setAlert,user,watchlist,}}>
         {children}
     </Cryto.Provider>
   ) 

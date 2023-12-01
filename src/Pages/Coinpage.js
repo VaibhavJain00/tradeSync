@@ -6,6 +6,8 @@ import { SingleCoin } from '../config/api';
 import { Button, LinearProgress, Typography, makeStyles } from '@material-ui/core';
 import CoinInfo from '../components/CoinInfo';
 import { numberWithCommas } from '../components/Banner/Carousel';
+import { doc, setDoc } from "@firebase/firestore";
+import { db } from '../firebase';
 
 
 const useStyles= makeStyles((theme)=>({
@@ -60,17 +62,43 @@ const useStyles= makeStyles((theme)=>({
 
 }))
 
+
 const Coinpage = () => {
 
   const classes=useStyles();
   const {id}=useParams();
   const [coin, setcoin] = useState();
-  const {currency, symbol,user}= CrytoState();
+  const {currency, symbol,user,watchlist,setAlert}= CrytoState();
 
   const fetchCoin=async()=>{
     const {data}= await axios.get(SingleCoin(id));
     setcoin(data);
   }
+
+  const inWatchlist = watchlist.includes(coin?.id);
+
+  const addToWatchlist = async () => {
+    const coinRef = doc(db, "watchlist", user.uid);
+    try {
+      await setDoc(
+        coinRef,
+        { coins: watchlist ? [...watchlist, coin?.id] : [coin?.id] },
+        { merge: true }
+      );
+  
+      setAlert({
+        open: true,
+        message: `${coin.name} Added to the Watchlist !`,
+        type: "success",
+      });
+    } catch (error) {
+      setAlert({
+        open: true,
+        message: error.message,
+        type: "error",
+      });
+    }
+  };
 
   useEffect(()=>{
     fetchCoin();
@@ -155,8 +183,9 @@ const Coinpage = () => {
                   height:40,
                   backgroundColor:"#EEBC1D",
                 }}
+                onClick={addToWatchlist}
               >
-                Add to Watchlist
+                {inWatchlist ? "Remove from Watchlist" : "Add to Watchlist"}
               </Button>
             )}
           </div>
