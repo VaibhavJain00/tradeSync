@@ -3,6 +3,7 @@ import React from 'react'
 import {useNavigate } from 'react-router-dom';
 import { CrytoState } from '../CrytoContext';
 import AuthModal from './Authentication/AuthModal';
+import UserSidebar from './Authentication/UserSidebar';
 
 
 const useStyles = makeStyles(() => ({
@@ -28,7 +29,7 @@ const Header = () => {
   const classes= useStyles();
 
   const navigate = useNavigate()
-  const {currency, setcurrency}=CrytoState();
+  const {currency, setcurrency, user}=CrytoState();
 
   console.log(currency);
 
@@ -52,7 +53,7 @@ const Header = () => {
                 <MenuItem value={"INR"}>INR</MenuItem>
               </Select>
 
-              <AuthModal />
+              {user ? <UserSidebar/> :<AuthModal />}
             </Toolbar>
           </Container>
         </AppBar>

@@ -4,6 +4,8 @@ import { useEffect } from 'react';
 import { useContext } from 'react';
 import { createContext } from 'react'
 import { CoinList } from './config/api';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './firebase';
 
 const Cryto= createContext();
 
@@ -21,6 +23,13 @@ const CrytoContext = ({children}) => {
       type:"success",
     });
 
+    useEffect(()=>{
+      onAuthStateChanged(auth,(user)=>{
+        if(user) setUser(user);
+        else setUser(null);
+      })
+    },[])
+
 
     useEffect(() => {
         if(currency==="INR") setsymbol("₹");
@@ -37,7 +46,7 @@ const CrytoContext = ({children}) => {
     };
     
   return (
-    <Cryto.Provider value={{currency,symbol,setcurrency, coins, loading,fetchCoins,alert, setAlert}}>
+    <Cryto.Provider value={{currency,symbol,setcurrency, coins, loading,fetchCoins,alert, setAlert,user,}}>
         {children}
     </Cryto.Provider>
   ) 

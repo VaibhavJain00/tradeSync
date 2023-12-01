@@ -9,7 +9,6 @@ const Login = ({handleClose}) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     
-    // const { setAlert } = CryptoState();
     const { setAlert } = CrytoState();
 
 
