@@ -1,8 +1,11 @@
 import { Avatar, Button, Drawer, makeStyles } from '@material-ui/core';
 import React from 'react'
 import { CrytoState } from '../../CrytoContext';
-import { auth } from '../../firebase';
+import { auth, db } from '../../firebase';
 import { signOut } from 'firebase/auth';
+import { numberWithCommas } from "../Banner/Carousel";
+import {AiFillDelete } from "react-icons/ai"
+import { doc, setDoc } from 'firebase/firestore';
 
 
 const useStyles = makeStyles({
@@ -66,7 +69,7 @@ const UserSidebar = () => {
       right: false,
     });
 
-    const { user, setAlert,coins, symbol } = CrytoState();
+    const { user, setAlert,coins, symbol ,watchlist } = CrytoState();
   
     // console.log(watchlist, coins);
   
@@ -92,28 +95,28 @@ const UserSidebar = () => {
       toggleDrawer();
     };
   
-    // const removeFromWatchlist = async (coin) => {
-    //   const coinRef = doc(db, "watchlist", user.uid);
-    //   try {
-    //     await setDoc(
-    //       coinRef,
-    //       { coins: watchlist.filter((wish) => wish !== coin?.id) },
-    //       { merge: true }
-    //     );
+    const removeFromWatchlist = async (coin) => {
+      const coinRef = doc(db, "watchlist", user.uid);
+      try {
+        await setDoc(
+          coinRef,
+          { coins: watchlist.filter((wish) => wish !== coin?.id) },
+          { merge: true }
+        );
   
-    //     setAlert({
-    //       open: true,
-    //       message: `${coin.name} Removed from the Watchlist !`,
-    //       type: "success",
-    //     });
-    //   } catch (error) {
-    //     setAlert({
-    //       open: true,
-    //       message: error.message,
-    //       type: "error",
-    //     });
-    //   }
-    // };
+        setAlert({
+          open: true,
+          message: `${coin.name} Removed from the Watchlist !`,
+          type: "success",
+        });
+      } catch (error) {
+        setAlert({
+          open: true,
+          message: error.message,
+          type: "error",
+        });
+      }
+    };
   
     return (
       <div>
@@ -159,6 +162,24 @@ const UserSidebar = () => {
                             <span style={{ fontSize: 15, textShadow: "0 0 5px black" }}>
                                 Watchlist
                             </span>
+                            {coins.map((coin) => {
+                              if (watchlist.includes(coin.id))
+                                return (
+                                  <div className={classes.coin}>
+                                    <span>{coin.name}</span>
+                                    <span style={{ display: "flex", gap: 8 }}>
+                                      {symbol}{" "}
+                                      {numberWithCommas(coin.current_price.toFixed(2))}
+                                      <AiFillDelete
+                                        style={{ cursor: "pointer" }}
+                                        fontSize="16"
+                                        onClick={() => removeFromWatchlist(coin)}
+                                      />
+                                    </span>
+                                  </div>
+                                );
+                              else return <></>;
+                            })}
                         </div>
                     </div>
                     <Button

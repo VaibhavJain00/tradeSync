@@ -97,6 +97,29 @@ const Coinpage = () => {
     }
   };
 
+  const removeFromWatchlist = async () => {
+    const coinRef = doc(db, "watchlist", user.uid);
+    try {
+      await setDoc(
+        coinRef,
+        { coins: watchlist.filter((wish) => wish !== coin?.id) },
+        { merge: true }
+      );
+
+      setAlert({
+        open: true,
+        message: `${coin.name} Removed from the Watchlist !`,
+        type: "success",
+      });
+    } catch (error) {
+      setAlert({
+        open: true,
+        message: error.message,
+        type: "error",
+      });
+    }
+  };
+
   useEffect(()=>{
     fetchCoin();
   },[]);
@@ -178,9 +201,9 @@ const Coinpage = () => {
                 style={{
                   width:"100%",
                   height:40,
-                  backgroundColor:"#EEBC1D",
+                  backgroundColor:inWatchlist ? "#ff0000": "#EEBC1D",
                 }}
-                onClick={addToWatchlist}
+                onClick={inWatchlist? removeFromWatchlist : addToWatchlist}
               >
                 {inWatchlist ? "Remove from Watchlist" : "Add to Watchlist"}
               </Button>
